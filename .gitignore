@@ -1,0 +1,12 @@
+# IDE-specific files
+.vscode
+.idea
+
+# log files
+*.log
+
+# binaries
+*.exe
+
+# random environment stuff
+*venv*

@@ -1,0 +1,28 @@
+﻿---
+BasedOnStyle: Microsoft
+AccessModifierOffset: '-1'
+AlignAfterOpenBracket: Align
+AlignConsecutiveMacros: 'true'
+AlignConsecutiveAssignments: 'true'
+AlignConsecutiveDeclarations: 'true'
+AlignEscapedNewlines: Left
+AlignOperands: 'true'
+AlignTrailingComments: 'true'
+AllowAllConstructorInitializersOnNextLine: 'true'
+AllowAllParametersOfDeclarationOnNextLine: 'true'
+AllowShortBlocksOnASingleLine: 'false'
+AllowShortCaseLabelsOnASingleLine: 'false'
+AllowShortFunctionsOnASingleLine: None
+AllowShortIfStatementsOnASingleLine: Never
+AllowShortLambdasOnASingleLine: None
+AllowShortLoopsOnASingleLine: 'false'
+BreakConstructorInitializers: AfterColon
+CompactNamespaces: 'false'
+FixNamespaceComments: 'true'
+IndentWidth: '2'
+Language: Cpp
+NamespaceIndentation: None
+PointerAlignment: Left
+UseTab: Never
+
+...
