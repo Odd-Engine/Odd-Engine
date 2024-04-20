@@ -5,7 +5,8 @@
 # log files
 *.log
 
-# binaries
+# binaries and builds
+build
 *.exe
 
 # random environment stuff
