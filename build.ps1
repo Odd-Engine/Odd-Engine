@@ -1,0 +1,1 @@
+python .\scripts\install_wraps.py ; meson setup build ; meson compile -C build

@@ -1,3 +1,4 @@
+#include "Image.h"
 #include "Logger.h"
 #include <iostream>
 #include <string>
@@ -10,6 +11,8 @@ int main()
   WARN("This is a warn message");
   ERROR("This is an error message");
   FATAL("This is a fatal message");
+
+  Image();
 
   return 0;
 }

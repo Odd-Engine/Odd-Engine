@@ -3,5 +3,5 @@ utils_sources = sources.stdout().strip().split('\n')
 
 utillib = static_library('utils',
                          utils_sources,
-                         include_directories : inc,
+                         include_directories : util_includes,
                          install : true)

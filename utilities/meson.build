@@ -1,4 +1,4 @@
-inc = include_directories('include')
+util_includes = include_directories('include')
 
 subdir('include')
 subdir('src')
