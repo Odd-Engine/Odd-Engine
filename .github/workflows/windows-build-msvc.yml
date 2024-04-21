@@ -1,0 +1,49 @@
+name: Windows build (MSVC)
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+     branches:
+       - main
+
+jobs:
+  build:
+    name: meson MSVC ${{ matrix.architecture }}
+    runs-on: windows-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - { architecture: x64 }
+          - { architecture: x86 }
+          - { architecture: arm64 }
+
+    steps:
+    - name: Fetch Sources
+      uses: actions/checkout@v4
+
+    - name: Setup Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.x'
+
+    - name: Install Python Dependencies
+      run: pip install meson ninja
+
+    - name: Prepare MSVC
+      uses: bus1/cabuild/action/msdevshell@v1
+      with:
+        architecture: ${{ matrix.architecture }}
+
+    - name: Prepare Build
+      run: |
+        python scripts/install_wraps.py
+        meson setup build
+
+    - name: Run Build
+      run: meson compile -v -C build
+
+    - name: Run Test Suite
+      run: meson test -v -C build

@@ -1,0 +1,55 @@
+name: Windows build (MinGW)
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+     branches:
+       - main
+
+jobs:
+  build:
+    name: meson ${{matrix.sys}}, ${{matrix.env}}
+    runs-on: windows-latest
+    defaults:
+      run:
+        shell: msys2 {0}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - { sys: mingw64, env: x86_64 }
+          - { sys: mingw32, env: i686 }
+          - { sys: ucrt64,  env: ucrt-x86_64 }
+          - { sys: clang32, env: clang-i686 }
+          - { sys: clang64, env: clang-x86_64 }
+          # - { sys: clangarm64, env: clang-aarch64 }
+
+    steps:
+    - name: Fetch Sources
+      uses: actions/checkout@v4
+
+    - name: Prepare minGW
+      uses: msys2/setup-msys2@v2
+      with:
+        msystem: ${{ matrix.sys }}
+        update: true
+        install: >-
+          mingw-w64-${{ matrix.env }}-gcc
+          mingw-w64-${{ matrix.env }}-pkg-config
+          mingw-w64-${{ matrix.env }}-python
+          mingw-w64-${{ matrix.env }}-meson-python
+          mingw-w64-${{ matrix.env }}-ca-certificates
+          git
+
+    - name: Prepare Build
+      run: |
+        python scripts/install_wraps.py
+        meson setup build
+
+    - name: Run Build
+      run: meson compile -v -C build
+
+    - name: Run Test Suite
+      run: meson test -v -C build
