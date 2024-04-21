@@ -10,8 +10,15 @@ on:
 
 jobs:
   build:
-    name: meson MSVC
+    name: meson MSVC ${{ matrix.architecture }}
     runs-on: windows-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - { architecture: x64 }
+          - { architecture: x86 }
+          - { architecture: arm64 }
 
     steps:
     - name: Fetch Sources
@@ -28,7 +35,7 @@ jobs:
     - name: Prepare MSVC
       uses: bus1/cabuild/action/msdevshell@v1
       with:
-        architecture: x64
+        architecture: ${{ matrix.architecture }}
 
     - name: Prepare Build
       run: |
