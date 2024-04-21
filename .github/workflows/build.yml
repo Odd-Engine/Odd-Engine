@@ -9,42 +9,42 @@ on:
        - main
 
 jobs:
-    build:
-        name: meson ${{matrix.cxx}}, C++${{matrix.std}}, ${{matrix.build_type}}
-        runs-on: ubuntu-22.04
-        strategy:
-            matrix:
-                cxx:
-                    - g++-11
-                    - clang++-11
-                build_type: [debug, release]
-                std: [14, 17]
-                include:
-                    - cxx: clang++-11
-                      other_pkgs: clang-11
+  build:
+    name: meson ${{matrix.cxx}}, C++${{matrix.std}}, ${{matrix.build_type}}
+    runs-on: ubuntu-22.04
+    strategy:
+      matrix:
+        cxx:
+          - g++-11
+          - clang++-11
+        build_type: [debug, release]
+        std: [14, 17]
+        include:
+          - cxx: clang++-11
+            other_pkgs: clang-11
 
-        steps:
-        - uses: actions/checkout@v4
+    steps:
+    - uses: actions/checkout@v4
 
-        - name: Prepare environment
-          run: |
-            sudo apt-get update
-            sudo apt-get install -y meson ninja-build freeglut3-dev libxcursor-dev libxrandr-dev libudev-dev
+    - name: Prepare environment
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y meson ninja-build freeglut3-dev libxcursor-dev libxrandr-dev libudev-dev
 
-        - name: Configure build
-          env:
-            CXX: ${{matrix.cxx}}
-            CXXFLAGS: -std=c++${{matrix.std}} ${{matrix.cxxflags}}
+    - name: Configure build
+      env:
+        CXX: ${{matrix.cxx}}
+        CXXFLAGS: -std=c++${{matrix.std}} ${{matrix.cxxflags}}
 
-          run: |
-            sudo python3 "$GITHUB_WORKSPACE/scripts/install_wraps.py" &&
-            sudo meson -Dbuildtype=${{matrix.build_type}} ${{runner.workspace}}/build
+      run: |
+        sudo python3 "$GITHUB_WORKSPACE/scripts/install_wraps.py" &&
+        sudo meson -Dbuildtype=${{matrix.build_type}} ${{runner.workspace}}/build
 
-        - name: Build tests + lib
-          working-directory: ${{runner.workspace}}/build
-          run: sudo ninja
+    - name: Build tests + lib
+      working-directory: ${{runner.workspace}}/build
+      run: sudo ninja
 
-        - name: run tests
-          working-directory: ${{runner.workspace}}/build
-          run: |
-            sudo meson test --verbose
+    - name: run tests
+      working-directory: ${{runner.workspace}}/build
+      run: |
+        sudo meson test --verbose
